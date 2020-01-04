@@ -1,6 +1,10 @@
 const discord = require("discord.js");
 const client = new discord.Client();
 
+// Initialize the server configurations
+const Enmap = require("enmap");
+client.servers = new Enmap({ name: "servers" });
+
 client.commands = new discord.Collection();
 client.config = require("./config.json");
 
@@ -22,5 +26,21 @@ for(const file of eventFiles) {
 	client.on(eventName, event.bind(null, client));
 	delete require.cache[require.resolve(`./events/${file}`)];
 }
+
+/* We only need to populate the databases once
+const csvparse = require("csv-parse");
+
+// Server parser
+const parseServers = csvparse({ delimiter: "," }, function(err, data) {
+	data.forEach(function(line) {
+		const alias = { "alias" : line[0].trim(),
+					  	"IP"    : line[1].trim(),
+					  	"port"  : line[2].trim(),
+		};
+		client.servers.set(alias.alias, { IP: alias.IP, port: alias.port });
+	});
+});
+fs.createReadStream("./assets/servers.csv").pipe(parseServers);
+*/
 
 client.login(client.config.token);

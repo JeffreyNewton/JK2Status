@@ -1,3 +1,7 @@
 .eslintrc.json
+assets/players.csv
+assets/servers.csv
+assets/skins.csv
 config.json
+data
 node_modules
